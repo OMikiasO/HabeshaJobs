@@ -60,7 +60,7 @@ const NotificationSettings = ({ onDone, show, onSelect }) => {
 
 	return (
 		<View style={styles.main}>
-			<Text style={[styles.header]}>Notifications</Text>
+			<Text style={[styles.header]}>Recieve notification for</Text>
 			{categories.map(
 				cat =>
 					cat.value !== 'all' && (
@@ -70,12 +70,13 @@ const NotificationSettings = ({ onDone, show, onSelect }) => {
 							uncheckedColor={colors.accentMidShade}
 							containerStyle={styles.checkboxContainer}
 							key={cat.value}
-							title={cat.name}
+							title={cat.name + ' jobs'}
 							onPress={() => onCheck(cat.value)}
 							checked={selected.includes(cat.value)}
 						/>
 					)
 			)}
+			<Text style={styles.info}>You will recieve upto {selected.length * 5 - 5} notifications per day.</Text>
 			<View style={styles.buttons}>
 				<CustomButton
 					title="Done"
@@ -98,6 +99,11 @@ const styles = StyleSheet.create({
 	header: {
 		color: colors.text,
 		fontSize: 20
+	},
+
+	info: {
+		color: colors.textMidShade,
+		fontSize: 16
 	},
 
 	checkboxContainer: {

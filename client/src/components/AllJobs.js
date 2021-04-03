@@ -5,6 +5,7 @@ import { Actions, JobContext } from '../JobContext'
 import JobItem from './JobItem'
 import { Icon } from 'react-native-elements'
 import { useNetInfo } from '@react-native-community/netinfo'
+import Categories from './Categories'
 
 const AllJobs = ({ navigation }) => {
 	const { state, dispatch } = useContext(JobContext)
@@ -21,11 +22,10 @@ const AllJobs = ({ navigation }) => {
 
 	useEffect(() => console.log('RERENDER', Date.now()), [])
 
-	const renderItem = ({ item }) => <JobItem item={item} onOpen={() => onOpen(item)} />
+	const renderItem = ({ item, index }) => <JobItem item={item} onOpen={() => onOpen(item)} />
 
 	return (
 		<View style={styles.container}>
-			{!state.loading && state.jobs.length == 0 && <NoResults netInfo={netInfo} />}
 			<FlatList
 				data={state.jobs}
 				renderItem={renderItem}
@@ -34,7 +34,9 @@ const AllJobs = ({ navigation }) => {
 				onEndReached={onEndReached}
 				extraData={state.savedJobs}
 				onEndReachedThreshold={0.1}
-				ListFooterComponent={footer}
+				ListHeaderComponent={Categories}
+				ListFooterComponent={state.jobs.length ? footer : state.loading && footer}
+				ListEmptyComponent={() => !state.loading && <NoResults netInfo={netInfo} />}
 				ListFooterComponentStyle={{
 					paddingTop: 10,
 					display: state.hasLoadedAllItems ? 'none' : 'flex'
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
 	empytyInfoContainer: {
 		alignItems: 'center',
 		backgroundColor: colors.black,
-		position: 'absolute',
+		// position: 'absolute',
 		zIndex: 200,
 		flex: 1,
 		width: '100%'

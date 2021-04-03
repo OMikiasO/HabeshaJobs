@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:355330677912:android:d5bca228ac4ecc59dac4ed",
         "android_client_info": {
-          "package_name": "com.client"
+          "package_name": "com.chaosapps.habeshajobs"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "355330677912-kq18iao9aid7250aco1eq4g5ojhgou03.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.client",
+            "package_name": "com.chaosapps.habeshajobs",
             "certificate_hash": "1b26f3b81db90693b164bb448539ad64f90b3142"
           }
         },
