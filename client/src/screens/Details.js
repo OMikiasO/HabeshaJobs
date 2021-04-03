@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Linking, ActivityIndicator, S
 import { Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler'
 import CustomButton from '../components/CustomButton'
-import { colors, fonts } from '../GlobalStyles'
-import { createShareContent, getIconNameForCat } from '../Utils'
+import { colors } from '../GlobalStyles'
+import { createShareContent } from '../Utils'
 import { Actions, JobContext, getJob } from '../JobContext'
 
 // create a component
@@ -12,7 +12,7 @@ const Details = ({ route, navigation }) => {
 	const [item, setItem] = useState(route.params.item)
 
 	const [isSaved, setIsSaved] = useState(false)
-	const { state, dispatch } = useContext(JobContext)
+	const { state, dispatch, categories } = useContext(JobContext)
 
 	const isFirstRun = useRef(true)
 
@@ -38,6 +38,11 @@ const Details = ({ route, navigation }) => {
 		}
 		navigation.goBack()
 	}, [state.searchTerm])
+
+	const getCategory = value => {
+		let category = categories.find(cat => cat.value == value)
+		return category ? category : categories[categories.length - 1]
+	}
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -65,8 +70,8 @@ const Details = ({ route, navigation }) => {
 								<Icon
 									type="material"
 									size={27}
-									color={getIconNameForCat(item.Category).color}
-									name={getIconNameForCat(item.Category).iconName}
+									color={getCategory(item.Category).color}
+									name={getCategory(item.Category).iconName}
 									containerStyle={styles.iconContainer}
 								/>
 								<Text style={styles.title}>{item['Job Title']}</Text>

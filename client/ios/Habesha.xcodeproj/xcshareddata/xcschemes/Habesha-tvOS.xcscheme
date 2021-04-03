@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "client-tvOS.app"
-               BlueprintName = "client-tvOS"
-               ReferencedContainer = "container:client.xcodeproj">
+               BuildableName = "Habesha-tvOS.app"
+               BlueprintName = "Habesha-tvOS"
+               ReferencedContainer = "container:Habesha.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "client-tvOSTests.xctest"
-               BlueprintName = "client-tvOSTests"
-               ReferencedContainer = "container:client.xcodeproj">
+               BuildableName = "Habesha-tvOSTests.xctest"
+               BlueprintName = "Habesha-tvOSTests"
+               ReferencedContainer = "container:Habesha.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "client-tvOS.app"
-            BlueprintName = "client-tvOS"
-            ReferencedContainer = "container:client.xcodeproj">
+            BuildableName = "Habesha-tvOS.app"
+            BlueprintName = "Habesha-tvOS"
+            ReferencedContainer = "container:Habesha.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "client-tvOS.app"
-            BlueprintName = "client-tvOS"
-            ReferencedContainer = "container:client.xcodeproj">
+            BuildableName = "Habesha-tvOS.app"
+            BlueprintName = "Habesha-tvOS"
+            ReferencedContainer = "container:Habesha.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,16 +1,3 @@
-export const getIconNameForCat = cat => {
-	switch (cat) {
-		case 'business_services':
-			return { iconName: 'work-outline', color: '#579CAE' }
-		case 'software':
-			return { iconName: 'code', color: '#AE8257' }
-		case 'creative_design':
-			return { iconName: 'brush', color: '#AE579F' }
-		default:
-			return { iconName: 'tag', color: '#57AE80' }
-	}
-}
-
 export const createTopicFromFilter = filters => {
 	let topic = ''
 	if (filters.category != 'all') topic += filters.category
@@ -24,7 +11,7 @@ export const createShareContent = job => {
 	if (job['Job Type']) content += `Job Type : ${job['Job Type']}\n\n`
 	if (job.Company) content += `Company : ${job.Company}\n\n`
 	if (job.Description) content += `Description : ${job.Description}\n\n`
-
+	content += `Get the app at https://play.google.com/store/apps/details?id=com.chaosapps.habeshajobs`
 	return content
 }
 
