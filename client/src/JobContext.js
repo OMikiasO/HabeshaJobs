@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import firestore from '@react-native-firebase/firestore'
-import { userToken, waitUntilToken } from '..'
+import { ToastAndroid } from 'react-native'
+import messaging from '@react-native-firebase/messaging'
 export const JobContext = React.createContext()
 
 export const Actions = {
@@ -202,10 +203,15 @@ const initialJobTypes = [
 	{ name: 'Hourly', value: 'Hourly' }
 ]
 
+const initialBodyProperties = ['Description', 'To Apply']
+
+let userToken
+
 function JobProvider({ children }) {
 	const [state, dispatch] = useReducer(reducer, initialState)
 	const [categories, setCategories] = useState(initialCategories)
 	const [jobTypes, setJobTypes] = useState(initialJobTypes)
+	const [bodyProperties, setBodyProperties] = useState(initialBodyProperties)
 
 	const createQuery = () => {
 		let q = JobColRef.where('Closed', '==', false).limit(10)
@@ -227,10 +233,15 @@ function JobProvider({ children }) {
 			let promise
 			if (state.savedJobs.filter(job => state.changingItem === job.id).length > 0) {
 				// job is saved
-				promise = docRef.update({ savedBy: firestore.FieldValue.arrayRemove(userToken.token) })
+				promise = docRef.update({ savedBy: firestore.FieldValue.arrayRemove(userToken) })
 			} else {
 				// job is not saved
-				promise = docRef.update({ savedBy: firestore.FieldValue.arrayUnion(userToken.token) })
+				if (state.savedJobs.length >= 20) {
+					ToastAndroid.show(`You can't save more than 20 jobs`, ToastAndroid.SHORT)
+					dispatch({ type: Actions.OnChangeItemSuccess })
+					return
+				}
+				promise = docRef.update({ savedBy: firestore.FieldValue.arrayUnion(userToken) })
 			}
 			promise.then(() => dispatch({ type: Actions.OnChangeItemSuccess })).catch(err => dispatch({ type: Actions.OnFail, payload: err }))
 		} else if (!state.action.includes('on')) {
@@ -244,8 +255,8 @@ function JobProvider({ children }) {
 	}, [state])
 
 	const observeSavedJobs = async unsubscribe => {
-		await waitUntilToken()
-		let q = JobColRef.where('savedBy', 'array-contains', userToken.token).limit(20)
+		userToken = await messaging().getToken()
+		let q = JobColRef.where('savedBy', 'array-contains', userToken).limit(20)
 		unsubscribe = q.onSnapshot(
 			snapshot => dispatch({ type: Actions.OnSavedJobsUpdate, payload: docsToJobs(snapshot) }),
 			err => dispatch({ type: Actions.OnFail, payload: err })
@@ -257,6 +268,7 @@ function JobProvider({ children }) {
 			let docSnapshot = await firestore().collection('public').doc('appVariables').get()
 			setCategories(docSnapshot.data().categories)
 			setJobTypes(docSnapshot.data().jobTypes)
+			setBodyProperties(docSnapshot.data().bodyProperties)
 		} catch (e) {
 			console.log(e)
 		}
@@ -275,7 +287,8 @@ function JobProvider({ children }) {
 				state,
 				dispatch,
 				categories,
-				jobTypes
+				jobTypes,
+				bodyProperties
 			}}
 		>
 			{children}

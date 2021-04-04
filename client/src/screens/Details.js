@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useRef, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Linking, ActivityIndicator, Share } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Linking, ActivityIndicator, Share, FlatList, ScrollView } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { ScrollView } from 'react-native-gesture-handler'
 import CustomButton from '../components/CustomButton'
 import { colors } from '../GlobalStyles'
 import { createShareContent } from '../Utils'
@@ -12,7 +11,7 @@ const Details = ({ route, navigation }) => {
 	const [item, setItem] = useState(route.params.item)
 
 	const [isSaved, setIsSaved] = useState(false)
-	const { state, dispatch, categories } = useContext(JobContext)
+	const { state, dispatch, categories, bodyProperties } = useContext(JobContext)
 
 	const isFirstRun = useRef(true)
 
@@ -121,32 +120,50 @@ const Details = ({ route, navigation }) => {
 									/>
 								</View>
 							</View>
-							{item['Description'] && (
+							{Object.keys(item).map(key => {
+								return (
+									bodyProperties.includes(key) && (
+										<View key={key}>
+											<Text style={styles.descriptionTitle}>{key}</Text>
+											<Text dataDetectorType="all" style={{ color: colors.textMidShade }}>
+												{item[key].replace(/\n/g, '\n\n')}
+											</Text>
+										</View>
+									)
+								)
+							})}
+							{/* {item['Description'] && (
 								<View>
 									<Text style={styles.descriptionTitle}>Description</Text>
 									<Text dataDetectorType="all" style={{ color: colors.textMidShade }}>
 										{item['Description'].replace(/\n/g, '\n\n')}
 									</Text>
 								</View>
-							)}
+							)} */}
 						</View>
-						{item['To Apply'] && <Text style={[styles.descriptionTitle, { fontSize: 16 }]}>To Apply : {item['To Apply']}</Text>}
+						{/* {item['To Apply'] && <Text style={[styles.descriptionTitle, { fontSize: 16 }]}>To Apply : {item['To Apply']}</Text>} */}
 					</ScrollView>
 
-					<View style={styles.contactsContainer}>
-						<Text style={[styles.descriptionTitle, { paddingBottom: 30 }]}>Contact :</Text>
-						{item.Contacts.map((contact, i) => (
-							<TouchableOpacity key={i} onPress={() => onContactPressed(contact)}>
-								<View style={styles.singleContactContainer}>
-									<Icon type="font-awesome-5" size={30} color={colors.text} name={contact.icon} containerStyle={styles.contactIconContainer} />
-									<Text style={{ color: colors.textShade }}>{contact.name}</Text>
-								</View>
-							</TouchableOpacity>
-						))}
-					</View>
+					<ContactList item={item} />
 				</View>
 			)}
 		</View>
+	)
+}
+
+const ContactList = ({ item }) => {
+	return (
+		<ScrollView style={styles.contactsScrollViewStyles} contentContainerStyle={styles.contactsContainer} horizontal>
+			<Text style={[styles.descriptionTitle, { paddingBottom: 30 }]}>Contact :</Text>
+			{item.Contacts.map((contact, i) => (
+				<TouchableOpacity key={i} onPress={() => onContactPressed(contact)}>
+					<View style={styles.singleContactContainer}>
+						<Icon type="font-awesome-5" size={30} color={colors.text} name={contact.icon} containerStyle={styles.contactIconContainer} />
+						<Text style={{ color: colors.textShade }}>{contact.name}</Text>
+					</View>
+				</TouchableOpacity>
+			))}
+		</ScrollView>
 	)
 }
 
@@ -203,16 +220,18 @@ const styles = StyleSheet.create({
 		marginBottom: 100
 	},
 
-	contactsContainer: {
-		height: 100,
-		borderTopWidth: 0.5,
-		borderTopColor: colors.borderColor,
-		flexDirection: 'row',
-		alignItems: 'center',
+	contactsScrollViewStyles: {
 		position: 'absolute',
 		bottom: 0,
 		left: 0,
-		right: 0
+		right: 0,
+		borderTopWidth: 0.5,
+		borderTopColor: colors.borderColor
+	},
+
+	contactsContainer: {
+		height: 100,
+		alignItems: 'center'
 	},
 
 	contactIconContainer: {

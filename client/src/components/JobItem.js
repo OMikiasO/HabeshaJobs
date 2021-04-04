@@ -20,10 +20,7 @@ const JobItem = ({ item, onOpen }) => {
 	TimeAgo.local
 	const { state, dispatch, categories } = useContext(JobContext)
 	const [isSaved, setIsSaved] = useState(false)
-	const onSavePressed = async () =>
-		state.savedJobs.length >= 20
-			? ToastAndroid.show(`You can't save more than 20 jobs`, ToastAndroid.SHORT)
-			: dispatch({ type: Actions.ChangeItem, payload: item.id })
+	const onSavePressed = async () => dispatch({ type: Actions.ChangeItem, payload: item.id })
 
 	useEffect(() => {
 		state.savedJobs.filter(job => job.id == item.id).length > 0 ? setIsSaved(true) : setIsSaved(false)

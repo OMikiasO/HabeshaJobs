@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import { StyleSheet, Text, View } from 'react-native'
 import { colors } from '../GlobalStyles'
 import CustomButton from './CustomButton'
 import { Actions, JobContext } from '../JobContext'
 
-const Filters = ({ onClose, onFilter }) => {
-	const { dispatch, categories, jobTypes } = useContext(JobContext)
+const Filters = ({ onClose, onFilter, popup }) => {
+	const { dispatch, categories, jobTypes, state } = useContext(JobContext)
 	const [filters, setFilters] = useState({ category: 'all', jobType: 'all' })
 
 	const filter = async () => {
@@ -14,6 +14,11 @@ const Filters = ({ onClose, onFilter }) => {
 		onClose()
 		onFilter()
 	}
+
+	useEffect(() => {
+		// if popup is 'filters' it means the filters popup is opened
+		if (popup == 'filters') setFilters(state.filters)
+	}, [popup])
 
 	const onCategorySelected = itemValue => setFilters(currValue => ({ ...currValue, category: itemValue }))
 	const onJobTypeSelected = itemValue => setFilters(currValue => ({ ...currValue, jobType: itemValue }))

@@ -150,7 +150,7 @@ const Header = ({ nav }) => {
 				</TouchableOpacity>
 			</View>
 			<Popup toggle={popup == FILTERS}>
-				<Filters onClose={() => setPopup('')} onFilter={() => (showGoBack ? nav.current.goBack() : '')} />
+				<Filters popup={popup} onClose={() => setPopup('')} onFilter={() => (showGoBack ? nav.current.goBack() : '')} />
 			</Popup>
 			{popup != FILTERS && (
 				<Popup toggle={popup == NOTIFICATION_SETTINGS}>
