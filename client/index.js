@@ -9,51 +9,38 @@ import messaging from '@react-native-firebase/messaging'
 import firestore from '@react-native-firebase/firestore'
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
-	console.log('Message handled in the background!', remoteMessage)
+	console.log('Message handled in the background!')
 	PushNotification.localNotification({
 		channelId: 'channel-id',
 		message: remoteMessage.data.body,
 		title: remoteMessage.data.title,
 		actions: JSON.parse(remoteMessage.data.actions),
 		invokeApp: false,
-		jobId: remoteMessage.data.jobId
+		jobId: remoteMessage.data.jobId,
+		largeIconUrl: remoteMessage.data.largeIconUrl,
+		smallIcon: 'ic_stat_name',
+		color: '#00d1e0'
 	})
 })
 
 // import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from 'react-native-push-notification'
 import { Linking } from 'react-native'
+import { ToastAndroid } from 'react-native'
 
-export let userToken
-export const waitUntilToken = () => {
-	return new Promise(resolve => {
-		let interval = setInterval(() => {
-			console.log(userToken)
-			if (userToken) {
-				resolve()
-				clearInterval(interval)
-			}
-		}, 1000)
-	})
-}
+let appIsOpen = false
 
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 PushNotification.configure({
 	// (optional) Called when Token is generated (iOS and Android)
 	onRegister: function (token) {
-		userToken = token
-		console.log('TOKEN:', token)
+		appIsOpen = true
 	},
 
 	// // (required) Called when a remote is received or opened, or local notification is opened
 	onNotification: function (notification) {
-		console.log('NOTIFICATION: From index', notification)
+		setTimeout(() => Linking.openURL(`habeshajobs://details/${notification.jobId}`), appIsOpen ? 100 : 1500)
 
-		if (notification.action == 'bro') {
-			console.log('ACTion pressed')
-		}
-
-		Linking.openURL(`habeshajobs://details/${notification.jobId}`)
 		// process the notification
 
 		// (required) Called when a remote is received or opened, or local notification is opened
@@ -62,15 +49,17 @@ PushNotification.configure({
 
 	// (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
 	onAction: function (notification) {
-		console.log('ACTION:', notification.action)
-		console.log('NOTIFICATION:', notification)
-
-		let docRef = firestore().collection('jobs').doc(notification.jobId)
-		if (notification.action == 'Remove from saved') {
-			docRef.update({ savedBy: firestore.FieldValue.arrayRemove(userToken.token) })
-		} else if (notification.action == 'Save') {
-			promise = docRef.update({ savedBy: firestore.FieldValue.arrayUnion(userToken.token) })
-		}
+		messaging()
+			.getToken()
+			.then(token => {
+				let docRef = firestore().collection('jobs').doc(notification.jobId)
+				if (notification.action == 'Remove from saved') {
+					docRef.update({ savedBy: firestore.FieldValue.arrayRemove(token) })
+				} else if (notification.action == 'Save') {
+					promise = docRef.update({ savedBy: firestore.FieldValue.arrayUnion(token) })
+					ToastAndroid.show('Job saved', 1000)
+				}
+			})
 	},
 
 	// (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
@@ -102,7 +91,7 @@ PushNotification.configure({
 PushNotification.createChannel(
 	{
 		channelId: 'channel-id', // (required)
-		channelName: 'My channel', // (required)
+		channelName: 'New jobs notification', // (required)
 		channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
 		playSound: false, // (optional) default: true
 		soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function

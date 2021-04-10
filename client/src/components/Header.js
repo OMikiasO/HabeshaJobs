@@ -52,14 +52,11 @@ const Header = ({ nav }) => {
 
 	const getBadgeNumber = () => {
 		let badgeNum = 0
-		console.log(Object.values(state.filters))
 		Object.values(state.filters).forEach(e => (e !== 'all' ? (badgeNum = badgeNum + 1) : ''))
-		console.log(badgeNum)
 		return badgeNum
 	}
 
 	function handleBackButtonClick() {
-		console.log(nav.current.canGoBack(), nav.current)
 		if (popup) setPopup(false)
 		else if (nav.current.canGoBack()) nav.current.goBack()
 		else if (goBackCount.current == 0) {

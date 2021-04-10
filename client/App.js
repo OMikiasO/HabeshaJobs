@@ -51,7 +51,10 @@ export default function App() {
 				title: remoteMessage.data.title,
 				actions: JSON.parse(remoteMessage.data.actions),
 				invokeApp: false,
-				jobId: remoteMessage.data.jobId
+				jobId: remoteMessage.data.jobId,
+				largeIconUrl: remoteMessage.data.largeIconUrl,
+				smallIcon: 'ic_stat_name',
+				color: '#00d1e0'
 			})
 			console.log(JSON.stringify(remoteMessage))
 		})

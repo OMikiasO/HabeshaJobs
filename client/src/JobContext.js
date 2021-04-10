@@ -182,9 +182,20 @@ function docsToJobs(snapshot) {
 	return { jobs, lastDoc: snapshot.docs.pop() }
 }
 
+let getJobTries = 0
 export async function getJob(id) {
-	let job = (await JobColRef.doc(id).get()).data()
-	return job
+	ToastAndroid.show(id, ToastAndroid.LONG)
+	if (getJobTries >= 3) return
+	console.log('Get job try', getJobTries + 1)
+	getJobTries++
+	try {
+		let job = (await JobColRef.doc(id).get()).data()
+		if (!job) getJob(id)
+		return job
+	} catch (err) {
+		console.log(err)
+		getJob(id)
+	}
 }
 
 const initialCategories = [
@@ -214,7 +225,7 @@ function JobProvider({ children }) {
 	const [bodyProperties, setBodyProperties] = useState(initialBodyProperties)
 
 	const createQuery = () => {
-		let q = JobColRef.where('Closed', '==', false).limit(10)
+		let q = JobColRef.where('Closed', '==', false).limit(20)
 		if (state.searchTerm.trim().length > 0) {
 			state.searchTerm.split(' ').forEach(s => {
 				if (s.trim().length > 0) q = q.where(`searchKeywords.${s.toUpperCase()}`, '==', true)

@@ -124,7 +124,7 @@ const Details = ({ route, navigation }) => {
 								return (
 									bodyProperties.includes(key) && (
 										<View key={key}>
-											<Text style={styles.descriptionTitle}>{key}</Text>
+											<Text style={styles.propertyTitle}>{key}</Text>
 											<Text dataDetectorType="all" style={{ color: colors.textMidShade }}>
 												{item[key].replace(/\n/g, '\n\n')}
 											</Text>
@@ -132,16 +132,7 @@ const Details = ({ route, navigation }) => {
 									)
 								)
 							})}
-							{/* {item['Description'] && (
-								<View>
-									<Text style={styles.descriptionTitle}>Description</Text>
-									<Text dataDetectorType="all" style={{ color: colors.textMidShade }}>
-										{item['Description'].replace(/\n/g, '\n\n')}
-									</Text>
-								</View>
-							)} */}
 						</View>
-						{/* {item['To Apply'] && <Text style={[styles.descriptionTitle, { fontSize: 16 }]}>To Apply : {item['To Apply']}</Text>} */}
 					</ScrollView>
 
 					<ContactList item={item} />
@@ -154,7 +145,7 @@ const Details = ({ route, navigation }) => {
 const ContactList = ({ item }) => {
 	return (
 		<ScrollView style={styles.contactsScrollViewStyles} contentContainerStyle={styles.contactsContainer} horizontal>
-			<Text style={[styles.descriptionTitle, { paddingBottom: 30 }]}>Contact :</Text>
+			<Text style={[styles.propertyTitle, { paddingBottom: 30 }]}>Contact :</Text>
 			{item.Contacts.map((contact, i) => (
 				<TouchableOpacity key={i} onPress={() => onContactPressed(contact)}>
 					<View style={styles.singleContactContainer}>
@@ -209,10 +200,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 
-	descriptionTitle: {
+	propertyTitle: {
 		color: colors.text,
 		fontSize: 22,
-		padding: 20
+		padding: 15,
+		paddingLeft: 0
 	},
 
 	scrollView: {

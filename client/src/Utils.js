@@ -13,14 +13,11 @@ export const createShareContent = job => {
 	if (job.Description) content += `Description : ${job.Description}\n\n`
 	content += `Get the app at https://play.google.com/store/apps/details?id=com.chaosapps.habeshajobs\n\n`
 	content += 'Contact\n'
-	content +=
-		`-> ` +
-		(job.Contacts.length === 1
-			? job.Contacts[0].contact
-				? job.Contacts[0].name + ' : ' + job.Contacts[0].contact
-				: job.Contacts[0].name + ' : ' + job.Contacts[0].link
-			: job.Contacts.reduce((p, c) => `${p.name} : ${p.contact ? p.contact : p.link}\n-> ${c.name} : ${c.contact ? c.contact : c.link}`))
-	console.log(content)
+	for (let i = 0; i < job.Contacts.length; i++) {
+		const contact = job.Contacts[i]
+		content += `-> ${contact.name} - ${contact.icon == 'telegram-plane' ? '@' : ''}${contact.contact ? contact.contact : contact.link}\n`
+	}
+
 	return content
 }
 

@@ -20,8 +20,6 @@ const AllJobs = ({ navigation }) => {
 		dispatch({ type: Actions.LoadMore })
 	}
 
-	useEffect(() => console.log('RERENDER', Date.now()), [])
-
 	const renderItem = ({ item, index }) => <JobItem item={item} onOpen={() => onOpen(item)} />
 
 	return (

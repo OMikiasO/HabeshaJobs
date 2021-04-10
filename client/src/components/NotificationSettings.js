@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Alert } from 'react-native'
 import { colors } from '../GlobalStyles'
 import CustomButton from './CustomButton'
 import { JobContext } from '../JobContext'
@@ -33,21 +33,25 @@ const NotificationSettings = ({ onDone, show, onSelect }) => {
 		AsyncStorage.setItem(
 			NOTIFICATION_SETTINGS,
 			selected.reduce((p, c) => `${p}|${c}`)
-		).then(() => AsyncStorage.getItem(NOTIFICATION_SETTINGS).then(v => console.log('notification settgins', v)))
+		)
 		onSelect(selected.length)
 	}, [selected])
 
+	const creatFirstLauchAlert = () =>
+		Alert.alert('Notifications', 'Choose the types of jobs you want to get notified for.', [{ text: 'OK', onPress: show }])
+
 	useEffect(() => {
 		let timeout
+
 		AsyncStorage.getItem(NOTIFICATION_SETTINGS).then(v => {
 			timeout = setTimeout(() => {
 				if (!v) {
-					show()
 					categories.forEach(cat => messaging().subscribeToTopic(cat.value))
 					AsyncStorage.setItem(
 						NOTIFICATION_SETTINGS,
 						categories.map(cat => cat.value).reduce((p, c) => `${p}|${c}`)
 					)
+					creatFirstLauchAlert()
 				}
 			}, 3000)
 			if (v) setSelected(v.split('|'))

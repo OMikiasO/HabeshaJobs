@@ -14,7 +14,6 @@ const timeAgo = new TimeAgo()
 
 import { TouchableNativeFeedback } from 'react-native'
 import { Actions, JobContext } from '../JobContext'
-import { ToastAndroid } from 'react-native'
 
 const JobItem = ({ item, onOpen }) => {
 	TimeAgo.local
