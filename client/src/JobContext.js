@@ -184,7 +184,6 @@ function docsToJobs(snapshot) {
 
 let getJobTries = 0
 export async function getJob(id) {
-	ToastAndroid.show(id, ToastAndroid.LONG)
 	if (getJobTries >= 3) return
 	console.log('Get job try', getJobTries + 1)
 	getJobTries++

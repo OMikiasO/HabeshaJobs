@@ -18,7 +18,7 @@ const Details = ({ route, navigation }) => {
 	const onSavePressed = async () => dispatch({ type: Actions.ChangeItem, payload: item.id })
 
 	useEffect(() => {
-		console.log(route.params.id, ' -- - - - --------------------------------------')
+		console.log(route.params.id, '-------------------')
 		const id = route.params.id
 		if (id) {
 			setItem(undefined)
