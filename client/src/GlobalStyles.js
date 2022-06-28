@@ -14,6 +14,6 @@ export const colors = {
 }
 
 export const fonts = {
-	normalFont: 'phagspa',
-	boldFont: 'phagspab'
+	normalFont: null,
+	boldFont: null
 }

@@ -9,12 +9,14 @@ import Popup from './Popup'
 import NotificationSettings from './NotificationSettings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ToastAndroid } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Header = ({ nav }) => {
 	const [searchInput, setSearchInput] = useState('')
+	const insets = useSafeAreaInsets()
 	const { state, dispatch } = useContext(JobContext)
 	const [popup, setPopup] = useState('')
-	const [headerHeight, setHeaderHeight] = useState(128)
+	const [headerHeight, setHeaderHeight] = useState(128+insets.top)
 	const [badgeNumber, setBadgeNumber] = useState(0)
 	const [showGoBack, setShowGoBack] = useState(false)
 	const [blockNotifications, setBlockNotifications] = useState(false)
@@ -22,7 +24,7 @@ const Header = ({ nav }) => {
 	const goBackCount = useRef(0)
 
 	useEffect(() => {
-		popup ? setHeaderHeight(1000) : setTimeout(() => setHeaderHeight(128), 400)
+		popup ? setHeaderHeight(1000) : setTimeout(() => setHeaderHeight(128+insets.top), 400)
 	}, [popup])
 
 	useEffect(() => {
@@ -175,7 +177,7 @@ const styles = StyleSheet.create({
 		top: 0,
 		left: 0,
 		right: 0,
-		zIndex: 1000
+		zIndex: 1000,
 	},
 
 	divider: {

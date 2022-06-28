@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>355330677912-a9c3c30f2k3ag59nsd76rnc10rmsqq85.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.355330677912-a9c3c30f2k3ag59nsd76rnc10rmsqq85</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>355330677912-e6e41t1g13dv110e7sm24piegi22mgm4.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAh5cnvH69r69oFD7eB1IZdlGij92v8R-Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>355330677912</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.chaosapps.habeshajobs</string>
+	<key>PROJECT_ID</key>
+	<string>freelance-jobs-db1ba</string>
+	<key>STORAGE_BUCKET</key>
+	<string>freelance-jobs-db1ba.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:355330677912:ios:04052b22639487a3dac4ed</string>
+</dict>
+</plist>
